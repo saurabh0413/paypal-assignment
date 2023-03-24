@@ -22,4 +22,8 @@ const signupController = async (req, res) => {
   });
 };
 
-module.exports = { signupController };
+const usersController = async (req, res) => {
+  const users = await signupModel.find();
+  res.send(users);
+};
+module.exports = { signupController, usersController };
