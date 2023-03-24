@@ -1,3 +1,9 @@
+const { signupModel } = require("../models/signup.model");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const { default: mongoose } = require("mongoose");
+mongoose.set("strictQuery", false);
+
 const loginController = async (req, res) => {
   const data = req.body;
   const { email, password } = data;
