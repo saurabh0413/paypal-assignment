@@ -4,7 +4,8 @@ const taskSchema = mongoose.Schema(
   {
     sprintId: { type: mongoose.Schema.Types.ObjectId, ref: "sprint" },
     task_name: { type: String, required: true },
-    status: { type: String, default: "todo" },
+    task_type: { type: String },
+    status: { type: String, default: "No status" },
     assigned: { type: mongoose.Schema.Types.ObjectId, ref: "login" },
   },
   {

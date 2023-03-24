@@ -6,6 +6,7 @@ mongoose.set("strictQuery", false);
 
 const loginController = async (req, res) => {
   const data = req.body;
+  
   const { email, password } = data;
 
   const result1 = await signupModel.findOne({ email });
