@@ -17,7 +17,9 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 export const Dashboard = () => {
+  const navigate = useNavigate();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const token = JSON.parse(localStorage.getItem("token"));
   const initialRef = React.useRef(null);
@@ -92,7 +94,14 @@ export const Dashboard = () => {
                 {item.sprintName}
                 <br />
                 <br />
-                <Button colorScheme="green">Go to sprint</Button>
+                <Button
+                  colorScheme="green"
+                  onClick={() => {
+                    navigate(`/dashboard/sprints/${item._id}`);
+                  }}
+                >
+                  Go to sprint
+                </Button>
               </Box>
             );
           })}
