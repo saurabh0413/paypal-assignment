@@ -8,14 +8,14 @@ const { tasksRoute } = require("./routes/tasks.routes");
 const { updateTaskController } = require("./controllers/tasks.controller");
 
 const app = express();
-// app.use(cors());
-// app.use((req, res, next) => {
-//   "Access-Control-Allow-Origin: *",
-//     "Access-Control-Allow-Methods: POST, PUT, PATCH, GET, DELETE, OPTIONS",
-//     "Access-Control-Allow-Headers: *";
+app.use(cors());
+app.use((req, res, next) => {
+  "Access-Control-Allow-Origin: *",
+    "Access-Control-Allow-Methods: POST, PUT, PATCH, GET, DELETE, OPTIONS",
+    "Access-Control-Allow-Headers: *";
 
-//   next();
-// });
+  next();
+});
 app.options("*", cors());
 app.use(express.json());
 
