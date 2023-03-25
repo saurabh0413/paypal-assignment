@@ -1,4 +1,5 @@
 const { default: mongoose } = require("mongoose");
+mongoose.set("strictQuery", false);
 
 const taskSchema = mongoose.Schema(
   {
@@ -6,7 +7,7 @@ const taskSchema = mongoose.Schema(
     task_name: { type: String, required: true },
     task_type: { type: String },
     status: { type: String, default: "No status" },
-    assigned: { type: mongoose.Schema.Types.ObjectId, ref: "login" },
+    assigned: { type: mongoose.Schema.Types.ObjectId, ref: "singup" },
   },
   {
     versionKey: false,
