@@ -9,15 +9,13 @@ import Tasks from "./context/Tasks";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <React.StrictMode>
-    <Tasks>
-      <ChakraProvider>
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
-      </ChakraProvider>
-    </Tasks>
-  </React.StrictMode>
+  <Tasks>
+    <ChakraProvider>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </ChakraProvider>
+  </Tasks>
 );
 
 // If you want to start measuring performance in your app, pass a function

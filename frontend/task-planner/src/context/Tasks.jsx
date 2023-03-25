@@ -5,10 +5,11 @@ import axios from "axios";
 export const taskContext = createContext();
 const Tasks = ({ children }) => {
     const token = JSON.parse(localStorage.getItem("token"));
+    console.log(token)
   const [tasks, setTasks] = useState([]);
   const getTasks = () => {
     axios
-      .get("http://localhost:8585/tasks", {
+      .get("https://paypal-ktp5.onrender.com/tasks", {
         headers: {
           Authorization: `Bearer ${token}`,
         },

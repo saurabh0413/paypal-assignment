@@ -23,11 +23,11 @@ const Signup = () => {
     console.log(formData);
     e.preventDefault();
     axios
-      .post("http://localhost:8585", { ...formData })
+      .post("https://paypal-ktp5.onrender.com", { ...formData })
       .then((res) => {
         console.log("signup done", res.data);
       
-        navigate("/tasks");
+        navigate("/login");
       })
       .catch((err) => console.log(err.message));
   };

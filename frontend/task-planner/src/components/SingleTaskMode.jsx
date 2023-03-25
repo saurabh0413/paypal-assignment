@@ -21,41 +21,64 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { taskContext } from "../context/Tasks";
 import { Singletask } from "./Singletask";
 
 const SingleTaskMode = ({ task }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const firstField = React.useRef();
-  const assignedUser = React.useRef()
-  const Taskstatus = React.useRef()
+  const firstField = React.useRef(null);
+  const assignedUser = React.useRef(null);
+  const Taskstatus = React.useRef(null);
   const [users, setUsers] = useState([]);
   const getusers = () => {
-    axios.get("http://localhost:8585").then((res) => {
+    axios.get("https://paypal-ktp5.onrender.com").then((res) => {
       setUsers(res.data);
     });
   };
   useEffect(() => {
     getusers();
   }, []);
-
-  const handleClick = ()=>{
-    // axios.patch(`http://localhost:8585/tasks/${task._id}`,{
-    //     task_name:firstField.current.value,
-    //     status:Taskstatus.current.value,
-    //     assigned:assignedUser.current.value
-    // })
-  }
+  const { getTasks } = useContext(taskContext);
+  const handleClick = () => {
+    console.log(assignedUser.current.value, "user");
+    console.log(task);
+    axios
+      .patch(
+        `https://paypal-ktp5.onrender.com/tasks/${task._id}`,
+        {
+          task_name: firstField.current.value,
+          status: Taskstatus.current.value,
+          assigned: assignedUser.current.value,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Headers":
+              "Origin, X-Requested-With, Content-Type, Accept, Z-Key",
+            "Access-Control-Allow-Methods":
+              "GET, HEAD, POST, PUT, DELETE, OPTIONS,PATCH",
+          },
+        }
+      )
+      .then(() => getTasks())
+      .catch((err) => {
+        console.log(err);
+      });
+    onClose();
+  };
   return (
     <>
       {/* <Button leftIcon={<AddIcon />} colorScheme="teal" onClick={onOpen}>
-        Create user
+        Create users
       </Button> */}
       <Text onClick={onOpen} textDecoration="underline">
         {task.task_name}
       </Text>
       <Text pt={5}>
-        Assignee: {task.assigned ? task["assigned"] : "Not assigned"}
+        Assignee:{" "}
+        {task.assigned == undefined ? "Not assigned" : task.assigned.name}
       </Text>
       <Drawer
         isOpen={isOpen}
@@ -110,7 +133,9 @@ const SingleTaskMode = ({ task }) => {
             <Button variant="outline" mr={3} onClick={onClose}>
               Cancel
             </Button>
-            <Button colorScheme="blue" onClick={handleClick}>Submit</Button>
+            <Button colorScheme="blue" onClick={handleClick}>
+              Submit
+            </Button>
           </DrawerFooter>
         </DrawerContent>
       </Drawer>

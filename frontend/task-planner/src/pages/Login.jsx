@@ -17,7 +17,7 @@ export const Login = () => {
     };
     if (username && pass) {
       axios
-        .post("http://localhost:8585/login", { ...data })
+        .post("https://paypal-ktp5.onrender.com/login", { ...data })
         .then((res) => {
           localStorage.setItem("token", JSON.stringify(res.data.token));
           navigate("/sprints");
