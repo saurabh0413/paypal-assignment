@@ -11,4 +11,8 @@ const sprintController = async (req, res) => {
   res.send(sprint);
 };
 
-module.exports = { sprintController };
+const getSprintData = async (req, res) => {
+  const data = await sprintModel.find();
+  res.send(data);
+};
+module.exports = { sprintController, getSprintData };
