@@ -1,0 +1,102 @@
+import React, { useEffect, useState } from "react";
+import {
+  Box,
+  Button,
+  FormControl,
+  FormLabel,
+  Input,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  SimpleGrid,
+  Text,
+  useDisclosure,
+} from "@chakra-ui/react";
+import axios from "axios";
+export const Dashboard = () => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const token = JSON.parse(localStorage.getItem("token"));
+  const initialRef = React.useRef(null);
+  const handleClick = () => {
+    axios
+      .post(
+        "https://paypal-ktp5.onrender.com/dashboard",
+        {
+          sprintName: initialRef.current.value,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    onClose();
+  };
+
+  const [sprints, setSprints] = useState([]);
+  const getSprints = async (req, res) => {
+    axios
+      .get("https://paypal-ktp5.onrender.com/dashboard", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        setSprints(res.data);
+      });
+  };
+  useEffect(() => {
+    getSprints();
+  }, []);
+  return (
+    <>
+      <Button onClick={onOpen} colorScheme="blue">
+        Create Sprint
+      </Button>
+      <Modal initialFocusRef={initialRef} isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Create new sprint</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody pb={6}>
+            <FormControl>
+              <FormLabel>sprint name</FormLabel>
+              <Input ref={initialRef} placeholder="First name" />
+            </FormControl>
+          </ModalBody>
+
+          <ModalFooter>
+            <Button colorScheme="blue" mr={3} onClick={handleClick}>
+              Save
+            </Button>
+            <Button onClick={onClose}>Cancel</Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+      <Text>Sprints</Text>
+      <SimpleGrid spacing="10px" columns={[1, 2, 3, 4]}>
+        {sprints &&
+          sprints.map((item, index) => {
+            return (
+              <Box w="200px" h="100px" border="2px solid black">
+                {item.sprintName}
+                <br />
+                <br />
+                <Button colorScheme="green">Go to sprint</Button>
+              </Box>
+            );
+          })}
+      </SimpleGrid>
+    </>
+  );
+};

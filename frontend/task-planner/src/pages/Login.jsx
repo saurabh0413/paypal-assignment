@@ -20,7 +20,7 @@ export const Login = () => {
         .post("https://paypal-ktp5.onrender.com/login", { ...data })
         .then((res) => {
           localStorage.setItem("token", JSON.stringify(res.data.token));
-          navigate("/sprints");
+          navigate("/dashboard");
         })
         .catch((err) => {
           console.log(err, "error while login");

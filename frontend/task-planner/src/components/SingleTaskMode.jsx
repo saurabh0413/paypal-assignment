@@ -32,6 +32,7 @@ const SingleTaskMode = ({ task }) => {
   const Taskstatus = React.useRef(null);
   const [users, setUsers] = useState([]);
   const getusers = () => {
+
     axios.get("https://paypal-ktp5.onrender.com").then((res) => {
       setUsers(res.data);
     });
@@ -41,6 +42,8 @@ const SingleTaskMode = ({ task }) => {
   }, []);
   const { getTasks } = useContext(taskContext);
   const handleClick = () => {
+    const token = JSON.parse(localStorage.getItem("token"));
+
     console.log(assignedUser.current.value, "user");
     console.log(task);
     axios
@@ -53,16 +56,11 @@ const SingleTaskMode = ({ task }) => {
         },
         {
           headers: {
-            "Content-Type": "application/json",
-            "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Headers":
-              "Origin, X-Requested-With, Content-Type, Accept, Z-Key",
-            "Access-Control-Allow-Methods":
-              "GET, HEAD, POST, PUT, DELETE, OPTIONS,PATCH",
+            Authorization: `Bearer ${token}`,
           },
         }
       )
-      .then(() => getTasks())
+      .then((res) => getTasks())
       .catch((err) => {
         console.log(err);
       });
