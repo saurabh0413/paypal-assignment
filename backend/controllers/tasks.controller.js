@@ -19,7 +19,7 @@ const getTasksController = async (req, res) => {
 const updateTaskController = async (req, res) => {
   const taskId = req.params.id;
   const { task_name, status, assigned } = req.body;
- console.log(assigned,"AA")
+ 
   const taskupdate = await taskModel.findByIdAndUpdate(
     { _id: taskId },
     { task_name: task_name, status: status, assigned: assigned }

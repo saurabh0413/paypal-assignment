@@ -6,6 +6,7 @@ const { authentication } = require("./middleware/authentication");
 const { sprintRoute } = require("./routes/sprints.routes");
 const { tasksRoute } = require("./routes/tasks.routes");
 const { updateTaskController } = require("./controllers/tasks.controller");
+const { sprintController } = require("./controllers/sprints.controller");
 
 const app = express();
 app.options("*", cors());
@@ -26,6 +27,7 @@ app.use(authentication);
 app.use("/sprints", sprintRoute);
 app.patch("/tasks/:id", updateTaskController);
 app.use("/tasks", tasksRoute);
+app.post("/dashboard", sprintController);
 app.listen(8585, async () => {
   try {
     await connection;
