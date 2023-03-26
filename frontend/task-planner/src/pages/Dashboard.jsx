@@ -4,6 +4,7 @@ import {
   Button,
   FormControl,
   FormLabel,
+  Heading,
   Input,
   Modal,
   ModalBody,
@@ -85,13 +86,13 @@ export const Dashboard = () => {
           </ModalFooter>
         </ModalContent>
       </Modal>
-      <Text>Sprints</Text>
-      <SimpleGrid spacing="10px" columns={[1, 2, 3, 4]}>
+      <Heading>Sprints</Heading>
+      <SimpleGrid spacing="10px" columns={[1, 2, 3, 4]} mt="50px" ml={10}>
         {sprints &&
           sprints.map((item, index) => {
             return (
-              <Box w="200px" h="100px" border="2px solid black">
-                {item.sprintName}
+              <Box w="300px" h="150px" border="2px solid black">
+                <Text fontSize="lg">Sprint:- {item.sprintName}</Text>
                 <br />
                 <br />
                 <Button

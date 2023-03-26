@@ -32,7 +32,6 @@ const SingleTaskMode = ({ task }) => {
   const Taskstatus = React.useRef(null);
   const [users, setUsers] = useState([]);
   const getusers = () => {
-
     axios.get("https://paypal-ktp5.onrender.com").then((res) => {
       setUsers(res.data);
     });
@@ -60,7 +59,7 @@ const SingleTaskMode = ({ task }) => {
           },
         }
       )
-      .then((res) => getTasks())
+      .then(() => getTasks())
       .catch((err) => {
         console.log(err);
       });
@@ -71,7 +70,7 @@ const SingleTaskMode = ({ task }) => {
       {/* <Button leftIcon={<AddIcon />} colorScheme="teal" onClick={onOpen}>
         Create users
       </Button> */}
-      <Text onClick={onOpen} textDecoration="underline">
+      <Text onClick={onOpen} textDecoration="underline" >
         {task.task_name}
       </Text>
       <Text pt={5}>

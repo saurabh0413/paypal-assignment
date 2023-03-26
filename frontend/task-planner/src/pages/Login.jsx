@@ -1,76 +1,100 @@
 import axios from "axios";
-import React from "react";
-
+import React, { useCallback } from "react";
+import {
+  Box,
+  Button,
+  FormControl,
+  FormLabel,
+  Heading,
+  Input,
+} from "@chakra-ui/react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import styles from "./Signup.module.css";
+
+const INITDATA = {
+  email: "",
+  password: "",
+};
 export const Login = () => {
   const navigate = useNavigate();
-  const [username, setUsername] = useState("");
-  const [pass, setPass] = useState("");
-
-  const submiForm = (e) => {
+  const [formData, setFormData] = useState(INITDATA);
+  const [loading, setLoading] = useState(false);
+  const handleChange = useCallback(
+    (e) => {
+      const { value, name } = e.target;
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        [name]: value,
+      }));
+    },
+    [formData]
+  );
+  const submiForm = async (e) => {
     e.preventDefault();
-    const data = {
-      email: username,
-      password: pass,
-    };
-    if (username && pass) {
-      axios
-        .post("https://paypal-ktp5.onrender.com/login", { ...data })
+    setLoading(true);
+    try {
+      await axios
+        .post("https://paypal-ktp5.onrender.com/login", formData)
         .then((res) => {
           localStorage.setItem("token", JSON.stringify(res.data.token));
           navigate("/dashboard");
-        })
-        .catch((err) => {
-          console.log(err, "error while login");
         });
+    } catch (err) {
+      console.log(err.message);
+    } finally {
+      setLoading(false);
     }
-    // if (ans.length == 0) {
-    //   alert("please singup before login");
-    // } else {
-    //   localStorage.setItem("current", JSON.stringify(ans[0]));
-    //   navigate("/tasks");
-    // }
   };
-
+  const { email, password } = formData;
   return (
-    <div>
-      <div id={styles.formS}>
-        <h2>Welcome !</h2>
-        <h1>Login up to</h1>
-        <form action="">
-          <label htmlFor="username">User name</label>
-          <br />
-          <input
-            type="text"
-            id="username"
-            value={username}
-            name="email"
-            onChange={(e) => {
-              setUsername(e.target.value);
-            }}
-          />
-          <br />
-
-          <label htmlFor="pass">Password</label>
-          <br />
-          <input
-            type="password"
-            id="pass"
-            value={pass}
-            name="password"
-            onChange={(e) => {
-              setPass(e.target.value);
-            }}
-          />
-          <br />
-
-          <input type="submit" onClick={submiForm} />
-          <br />
+    <>
+      <Box
+        maxW="md"
+        mx="auto"
+        mt="8"
+        p="6"
+        rounded="md"
+        boxShadow="lg"
+        bg="white"
+      >
+        <Heading as="h1" mb="8" textAlign="center">
+          Log up
+        </Heading>
+        <form onSubmit={submiForm}>
+          <FormControl mb="4">
+            <FormLabel htmlFor="email">Email</FormLabel>
+            <Input
+              type="email"
+              id="email"
+              value={email}
+              name="email"
+              onChange={handleChange}
+              required
+            />
+          </FormControl>
+          <FormControl mb="4">
+            <FormLabel htmlFor="password">Password</FormLabel>
+            <Input
+              type="password"
+              id="password"
+              value={password}
+              name="password"
+              onChange={handleChange}
+              required
+            />
+          </FormControl>
+          <Button
+            type="submit"
+            colorScheme="teal"
+            size="lg"
+            w="full"
+            disabled={loading}
+          >
+            {loading ? "Loading..." : "Signup"}
+          </Button>
         </form>
-      </div>
-    </div>
+      </Box>
+    </>
   );
 };
 

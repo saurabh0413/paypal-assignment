@@ -12,7 +12,7 @@ export const Sprints = () => {
   }, []);
   return (
     <Box width="100%" marginTop={"100px"}>
-      <SimpleGrid spacing="10px" columns={[1, 2, 3, 4]}>
+      <SimpleGrid spacing="10px" columns={[1, 2, 3, 4]} flexDirection="column">
         {arr.map((item, index) => {
           return <SingleSprint item={item} key={index} tasks={tasks} />;
         })}
