@@ -4,8 +4,8 @@ import React from "react";
 import axios from "axios";
 export const taskContext = createContext();
 const Tasks = ({ children }) => {
-    const token = JSON.parse(localStorage.getItem("token"));
-    console.log(token)
+  const token = JSON.parse(localStorage.getItem("token"));
+  console.log(token);
   const [tasks, setTasks] = useState([]);
   const getTasks = () => {
     axios
@@ -16,13 +16,16 @@ const Tasks = ({ children }) => {
       })
       .then((res) => {
         setTasks(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
       });
   };
   useEffect(() => {
     getTasks();
   }, []);
   return (
-    <taskContext.Provider value={{tasks,getTasks}}>
+    <taskContext.Provider value={{ tasks, getTasks }}>
       {children}
     </taskContext.Provider>
   );
